@@ -1,223 +1,68 @@
 <div class="container">
   <h1 class="my-4">Oglasi</h1>
 
+  @if(paginatedProducts.length > 0) {
+  <!-- Proizvodi -->
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+    @for (product of paginatedProducts; track product.id) {
     <div class="col">
       <div class="card h-100">
         <img
-          src="https://picsum.photos/1000?random=1"
+          src="{{ product.imageUrl }}"
           class="card-img-top img-fill"
-          alt="..."
+          alt="{{ product.name }}"
         />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
+        @if(isLoggedIn && loggedInUserId === product.id) {
+        <div class="card-img-overlay">
+          <span class="bg-light p-2 rounded-5 me-2"
+            ><i class="bi bi-pencil-square text-primary"></i
+          ></span>
+          <span class="bg-light p-2 rounded-5"
+            ><i class="bi bi-trash3-fill text-danger"></i
+          ></span>
+        </div>
+        }
         <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
+          <h2 class="card-title fs-6">{{ product.name }}</h2>
+          <p class="card-subtitle text-secondary">{{ product.city }}</p>
           <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
+            <span
+              class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
+              >{{ product.category }}</span
             >
           </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
+          <p class="fw-bold fs-5 mt-2 mb-0">
+            {{ product.price | currency : "EUR" }}
+          </p>
         </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card h-100">
-        <img
-          src="https://picsum.photos/1000?random=2"
-          class="card-img-top img-fill"
-          alt="..."
-        />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
-        <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
-          <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
-            >
-          </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img
-          src="https://picsum.photos/1000?random=3"
-          class="card-img-top img-fill"
-          alt="..."
-        />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
-        <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
-          <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
-            >
-          </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img
-          src="https://picsum.photos/1000?random=4"
-          class="card-img-top img-fill"
-          alt="..."
-        />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
-        <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
-          <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
-            >
-          </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img
-          src="https://picsum.photos/1000?random=5"
-          class="card-img-top img-fill"
-          alt="..."
-        />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
-        <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
-          <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
-            >
-          </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img
-          src="https://picsum.photos/1000?random=6"
-          class="card-img-top img-fill"
-          alt="..."
-        />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
-        <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
-          <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
-            >
-          </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img
-          src="https://picsum.photos/1000?random=7"
-          class="card-img-top img-fill"
-          alt="..."
-        />
-        <!-- <div class="card-img-overlay">
-          <span class="bg-light py-1 px-2 rounded-1 fw-light">Zvornik</span>
-        </div> -->
-        <div class="card-body">
-          <h2 class="card-title fs-6">Iphone 11 Pro Max 256GB</h2>
-          <p class="card-subtitle text-secondary">Zvornik</p>
-          <div class="py-2 d-flex gap-2 flex-wrap">
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Mem: 256GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >RAD: 8GB</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Bat: 74%</span
-            >
-            <span class="border border-1 border-dark-subtle rounded-1 p-1 fs-7"
-              >Polovno</span
-            >
-          </div>
-          <p class="fw-bold fs-5 mt-2 mb-0">400KM</p>
-        </div>
-      </div>
-    </div>
+    }
   </div>
+
+  <!-- Paginacija -->
+  <nav aria-label="Page navigation" class="my-5">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">
+          Previous
+        </button>
+      </li>
+
+      @for(page of pages; track page){
+      <li class="page-item" [class.active]="page === currentPage">
+        <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+      </li>
+      }
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">
+          Next
+        </button>
+      </li>
+    </ul>
+  </nav>
+  } @else {
+  <div class="alert alert-info" role="alert">Nema oglasa za prikaz.</div>
+  }
 </div>

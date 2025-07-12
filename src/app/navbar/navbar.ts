@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Products } from '../products';
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +8,13 @@ import { RouterLink } from '@angular/router';
   templateUrl: './navbar.html',
 })
 export class Navbar {
-  isLoggedIn = false;
+  products: Products = inject(Products);
+
+  productsList = this.products.products;
+  isLoggedIn = this.products.isLoggedIn;
+  loggedInUserId = this.products.loggedInUserId;
+
+  loggedInUser(){
+    return this.productsList.find(product => product.id === this.loggedInUserId)?.seller || 'Korisnik';
+  }
 }
