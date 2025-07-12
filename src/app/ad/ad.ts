@@ -1,19 +1,12 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { Products } from '../products';
 import type { Product } from '../product.model';
-import { CurrencyPipe, DatePipe, NgOptimizedImage } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-ad',
-  imports: [DatePipe, NgOptimizedImage, CurrencyPipe, RouterLink],
+  imports: [DatePipe, CurrencyPipe, RouterLink],
   templateUrl: './ad.html',
   styleUrl: './ad.css',
 })
