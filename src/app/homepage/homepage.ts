@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Products } from '../products';
 
 @Component({
   selector: 'app-homepage',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, FormsModule, NgOptimizedImage],
   templateUrl: './homepage.html',
 })
 export class Homepage {
@@ -27,12 +28,12 @@ export class Homepage {
     return this.productsList.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
   changePage(page: number): void {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
-  }
-
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }

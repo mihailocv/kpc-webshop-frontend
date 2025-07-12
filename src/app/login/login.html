@@ -1,31 +1,51 @@
-<div class="container p-5 mt-5">
-  <form>
-    <div class="input-group mb-3">
-      <span class="input-group-text px-3"><i class="bi bi-person-fill fs-4"></i></span>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="floatingInputGroup1"
-          placeholder="Korisničko ime"
-        />
-        <label for="floatingInputGroup1">Korisničko ime</label>
-      </div>
-    </div>
+<div
+  class="login-container container d-flex justify-content-center align-items-center"
+>
+  <!-- Main container for the login form -->
+  <div class="card login-card w-100">
+    <div class="card-body">
+      <!-- Title of the login form -->
+      <h2 class="card-title text-center">Prijava</h2>
 
-    <div class="input-group mb-3">
-      <span class="input-group-text px-3"><i class="bi bi-key-fill fs-4"></i></span>
-      <div class="form-floating">
-        <input
-          type="password"
-          class="form-control"
-          id="floatingInputGroup1"
-          placeholder="Password"
-        />
-        <label for="floatingInputGroup1">Password</label>
-      </div>
-    </div>
+      <!-- The login form itself -->
+      <form>
+        <!-- Email Address Input -->
+        <div class="input-group mb-4">
+          <span class="input-group-text px-3"
+            ><i class="bi bi-person-fill fs-4"></i
+          ></span>
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInputGroup1"
+              placeholder="Korisničko ime"
+            />
+            <label for="floatingInputGroup1">Korisničko ime</label>
+          </div>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Uloguj se</button>
-  </form>
+        <!-- Password Input -->
+        <div class="input-group mb-4">
+          <span class="input-group-text px-3"
+            ><i class="bi bi-key-fill fs-4"></i
+          ></span>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingInputGroup2"
+              placeholder="Password"
+            />
+            <label for="floatingInputGroup2">Password</label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Prijavi se</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

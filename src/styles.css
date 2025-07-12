@@ -5,11 +5,6 @@
   font-size: 0.625rem;
 }
 
-.img-fill {
-  height: 160px;
-  object-fit: cover
-}
-
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;

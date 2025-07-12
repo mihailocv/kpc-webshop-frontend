@@ -3,16 +3,17 @@ import { Homepage } from './homepage/homepage';
 import { Login } from './login/login';
 import { SignUp } from './sign-up/sign-up';
 import { NotFound } from './not-found/not-found';
+import { NewAd } from './new-ad/new-ad';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: Homepage,
+  },
   {
     path: 'homepage',
     redirectTo: '',
     pathMatch: 'full',
-  },
-  {
-    path: '',
-    component: Homepage,
   },
   {
     path: 'login',
@@ -23,7 +24,11 @@ export const routes: Routes = [
     component: SignUp,
   },
   {
+    path: 'objavi-oglas',
+    component: NewAd,
+  },
+  {
     path: '**',
-    component: NotFound
-  }
+    component: NotFound,
+  },
 ];

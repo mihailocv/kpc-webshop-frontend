@@ -1,14 +1,13 @@
-<header>
-  <nav class="navbar bg-body-tertiary">
-    <div class="container">
-      <a class="navbar-brand" routerLink="/">
-        <img src="assets/kp-logo.svg" alt="Home page" height="60" />
-      </a>
-      <div class="d-flex gap-2">
-        @if (isLoggedIn) {
-        <button type="button" class="btn btn-primary">
+<nav class="navbar bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <img alt="Home page" height="60" src="assets/kp-logo.svg" />
+    </a>
+    <div class="d-flex gap-2">
+      @if (isLoggedIn) {
+        <a routerLink="/objavi-oglas" class="btn btn-primary">
           <i class="bi bi-plus-lg me-1"></i>Objavi oglas
-        </button>
+        </a>
 
         <div class="btn-group">
           <button
@@ -17,11 +16,17 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {{loggedInUser()}}
+            {{ loggedInUser() }}
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#"><i class="bi bi-person-fill me-2"></i>Moj nalog</a></li>
-            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="#"
+                ><i class="bi bi-person-fill me-2"></i>Moj nalog</a
+              >
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
             <li>
               <a class="dropdown-item" href="#"
                 ><i class="bi bi-box-arrow-right me-2"></i>Odjava</a
@@ -29,11 +34,14 @@
             </li>
           </ul>
         </div>
-        } @else {
-        <a routerLink="/login" class="btn btn-outline-primary fs-5">Uloguj se</a>
-        <a routerLink="/signup" class="btn btn-primary fs-5"><i class="bi bi-person-fill-add me-2"></i>Kreiraj nalog</a>
-        }
-      </div>
+      } @else {
+        <a routerLink="/login" class="btn btn-outline-primary fs-5"
+          >Prijavi se</a
+        >
+        <a routerLink="/signup" class="btn btn-primary fs-5"
+          ><i class="bi bi-person-fill-add me-2"></i>Kreiraj nalog</a
+        >
+      }
     </div>
-  </nav>
-</header>
+  </div>
+</nav>
