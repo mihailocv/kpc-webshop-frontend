@@ -3,6 +3,7 @@ import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Products } from '../products';
 import { RouterLink } from '@angular/router';
+import { Users } from '../users';
 
 @Component({
   selector: 'app-homepage',
@@ -12,9 +13,10 @@ import { RouterLink } from '@angular/router';
 })
 export class Homepage {
   products: Products = inject(Products);
+  users = inject(Users);
 
   isLoggedIn = this.products.isLoggedIn;
-  loggedInUserId = this.products.loggedInUserId;
+  loggedInUser = this.users.loggedInUser;
   productsList = this.products.products;
 
   //pagination

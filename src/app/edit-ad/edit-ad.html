@@ -11,6 +11,7 @@
             class="form-control"
             id="naziv-oglasa"
             placeholder="iPhone 16 Pro Max"
+            value="{{ product()?.name ?? 'Nepoznato' }}"
           />
           <label for="naziv-oglasa">Naziv oglasa</label>
         </div>
@@ -22,6 +23,7 @@
             placeholder="Opišite proizvod u kratkim crtama..."
             id="opis-oglasa"
             style="height: 80px"
+            [value]="product()?.description ?? 'Nepoznato'"
           ></textarea>
           <label for="opis-oglasa">Opis oglasa</label>
         </div>
@@ -33,6 +35,7 @@
             class="form-control"
             id="cijena"
             placeholder="1000"
+            value="{{ product()?.price ?? 'Nepoznato' }}"
           />
           <label for="cijena">Cijena proizvoda</label>
         </div>
@@ -44,7 +47,7 @@
           <label for="fotografija-proizvoda" class="form-label"
           >Fotografija proizvoda</label
           >
-          <input class="form-control" type="file" id="fotografija-proizvoda" />
+          <input class="form-control" type="file" id="fotografija-proizvoda"/>
         </div>
 
         <!--  Kategorija proizvoda  -->

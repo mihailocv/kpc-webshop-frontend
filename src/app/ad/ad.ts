@@ -29,6 +29,4 @@ export class Ad {
       this.product.set(this.products.getProduct(id));
     });
   }
-
-  productName = computed(() => this.product()?.name ?? 'Nepoznat');
 }

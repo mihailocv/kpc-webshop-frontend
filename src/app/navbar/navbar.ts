@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Products } from '../products';
+import { Users } from '../users';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +10,17 @@ import { Products } from '../products';
 })
 export class Navbar {
   products: Products = inject(Products);
+  users: Users = inject(Users);
 
-  productsList = this.products.products;
+  usersList = this.users.users;
+
   isLoggedIn = this.products.isLoggedIn;
-  loggedInUserId = this.products.loggedInUserId;
+  loggedInUser = this.users.loggedInUser;
 
-  loggedInUser(){
-    return this.productsList.find(product => product.id === this.loggedInUserId)?.seller || 'Korisnik';
+  whoIsLoggedIn() {
+    return (
+      this.usersList.find((user) => user.username === this.loggedInUser)
+        ?.username || 'Korisnik'
+    );
   }
 }
