@@ -30,22 +30,34 @@
               />
             </div>
             @if (isLoggedIn && loggedInUserId === product.id) {
-              <div class="card-img-overlay">
-                <span class="bg-light p-2 rounded-5 me-2"
-                  ><i class="bi bi-pencil-square text-primary"></i
-                ></span>
-                <span class="bg-light p-2 rounded-5"
-                  ><i class="bi bi-trash3-fill text-danger"></i
-                ></span>
+              <div class="card-img-overlay d-flex justify-content-end align-items-start p-2">
+                <button
+                  type="button"
+                  class="btn btn-light rounded-5 me-2"
+                  aria-label="Uredi proizvod"
+                >
+                  <i class="bi bi-pencil-square text-primary"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-light rounded-5"
+                  aria-label="Obriši proizvod"
+                >
+                  <i class="bi bi-trash3-fill text-danger"></i>
+                </button>
               </div>
             }
             <div class="card-body">
-              <h2 class="card-title fs-6">{{ product.name }}</h2>
+              <a [routerLink]="['/artikal', product.id]" class="stretched-link text-decoration-none text-dark">
+                <h2 class="card-title fs-6">{{ product.name }}</h2>
+              </a>
+
               <p class="card-subtitle text-secondary">{{ product.city }}</p>
+
               <div class="py-2 d-flex gap-2 flex-wrap">
-                <span class="border border-dark-subtle rounded-1 p-1 fs-7">{{
-                  product.category
-                }}</span>
+                <span class="border border-dark-subtle rounded-1 p-1 fs-7">
+                  {{product.category}}
+                </span>
               </div>
               <p class="fw-bold fs-5 mt-2 mb-0">
                 {{ product.price | currency: "EUR" }}

@@ -2,11 +2,13 @@ import { Component, inject } from '@angular/core';
 import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Products } from '../products';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
-  imports: [CurrencyPipe, FormsModule, NgOptimizedImage],
+  imports: [CurrencyPipe, FormsModule, NgOptimizedImage, RouterLink],
   templateUrl: './homepage.html',
+  styleUrl: 'homepage.css',
 })
 export class Homepage {
   products: Products = inject(Products);

@@ -1,0 +1,81 @@
+<!--<p>Ime proizvoda: {{ product()?.name ?? "Nepoznato" }}</p>-->
+<!--<p>Ime proizvoda: {{ product()?.description ?? "Nepoznato" }}</p>-->
+<!--<p>Ime proizvoda: {{ product()?.imageUrl ?? "Nepoznato" }}</p>-->
+<!--<p>Ime proizvoda: {{ product()?.price ?? "Nepoznato" }}</p>-->
+<!--<p>Ime proizvoda: {{ product()?.category ?? "Nepoznato" }}</p>-->
+<!--<p>Ime proizvoda: {{ product()?.seller ?? "Nepoznato" }}</p>-->
+<!--<p>Ime proizvoda: {{ product()?.city ?? "Nepoznato" }}</p>-->
+<!--<p>-->
+<!--  Ime proizvoda:-->
+<!--  {{ product()?.date ? (product()?.date | date: "longDate") : "Nepoznato" }}-->
+<!--</p>-->
+<div class="container my-5">
+  <div class="row gy-4">
+    <div class="col-12 col-md-8">
+      <div class="card h-100">
+        <div class="card-header">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a routerLink="/">Artikli</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                {{ product()?.category ?? "Nepoznato" }}
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <img
+          src="{{ product()?.imageUrl ?? 'Nepoznato' }}"
+          alt="{{ product()?.name ?? 'Nepoznato' }}"
+          class="img-fluid"
+        />
+
+        <div class="card-body">
+          <h1 class="card-title fw-bold display-5">
+            {{ product()?.name ?? "Nepoznato" }}
+          </h1>
+          <p class="card-text h4 text-info-emphasis fw-bold">
+            {{
+              product()?.price
+                ? (product()?.price | currency: "EUR")
+                : "Nepoznato"
+            }}
+          </p>
+        </div>
+
+        <div class="card-footer mt-3">
+          <small>Datum objave: {{ product()?.date ? (product()?.date | date: "longDate") : "Nepoznato" }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h2 class="card-title">Prodavac:</h2>
+          <p class="fs-4">
+            <strong>{{ product()?.seller ?? "Nepoznato" }}</strong>
+          </p>
+          <button class="btn btn-outline-primary w-100">
+            +381 66 123 4567
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3 class="mb-0">Detaljan opis proizvoda</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-text fs-5">
+            {{
+              product()?.description ?? "Nema dostupnog opisa za ovaj proizvod."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

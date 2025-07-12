@@ -4,6 +4,7 @@ import { Login } from './login/login';
 import { SignUp } from './sign-up/sign-up';
 import { NotFound } from './not-found/not-found';
 import { NewAd } from './new-ad/new-ad';
+import { Ad } from './ad/ad';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,10 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SignUp,
+  },
+  {
+    path: 'artikal/:adId',
+    component: Ad,
   },
   {
     path: 'objavi-oglas',

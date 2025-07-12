@@ -1,0 +1,8 @@
+.card-img-overlay {
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-img-overlay .btn {
+  pointer-events: auto;
+}

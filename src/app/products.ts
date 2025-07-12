@@ -1,16 +1,5 @@
 import { Injectable } from '@angular/core';
-
-interface Product {
-  id: number;
-  name: string;
-  destination: string;
-  imageUrl: string;
-  price: number;
-  category: string;
-  seller: string;
-  city: string;
-  date: string;
-}
+import type { Product } from './product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +12,7 @@ export class Products {
     {
       id: 1,
       name: 'Laptop',
-      destination: 'Belgrade',
+      description: 'High-performance laptop with 16GB RAM and 512GB SSD.',
       imageUrl: 'https://picsum.photos/238/160?random=1',
       price: 500,
       category: 'Electronics',
@@ -34,7 +23,7 @@ export class Products {
     {
       id: 2,
       name: 'Bicycle',
-      destination: 'Novi Sad',
+      description: 'Mountain bike with 21-speed gears and disc brakes.',
       imageUrl: 'https://picsum.photos/238/160?random=2',
       price: 150,
       category: 'Sports',
@@ -45,7 +34,7 @@ export class Products {
     {
       id: 3,
       name: 'Smartphone',
-      destination: 'Niš',
+      description: 'Latest smartphone with 128GB storage and 48MP camera.',
       imageUrl: 'https://picsum.photos/238/160?random=3',
       price: 300,
       category: 'Electronics',
@@ -56,7 +45,7 @@ export class Products {
     {
       id: 4,
       name: 'Camera',
-      destination: 'Subotica',
+      description: 'DSLR camera with 24MP sensor and 18-55mm lens.',
       imageUrl: 'https://picsum.photos/238/160?random=4',
       price: 400,
       category: 'Photography',
@@ -67,7 +56,7 @@ export class Products {
     {
       id: 5,
       name: 'Headphones',
-      destination: 'Kragujevac',
+      description: 'Wireless over-ear headphones with noise cancellation.',
       imageUrl: 'https://picsum.photos/238/160?random=5',
       price: 80,
       category: 'Audio',
@@ -78,7 +67,8 @@ export class Products {
     {
       id: 6,
       name: 'Watch',
-      destination: 'Čačak',
+      description:
+        'Stylish analog watch with leather strap and water resistance.',
       imageUrl: 'https://picsum.photos/238/160?random=6',
       price: 200,
       category: 'Accessories',
@@ -89,7 +79,8 @@ export class Products {
     {
       id: 7,
       name: 'Tablet',
-      destination: 'Zrenjanin',
+      description:
+        '10-inch tablet with 64GB storage and high-resolution display.',
       imageUrl: 'https://picsum.photos/238/160?random=7',
       price: 250,
       category: 'Electronics',
@@ -100,7 +91,7 @@ export class Products {
     {
       id: 8,
       name: 'Gaming Console',
-      destination: 'Senta',
+      description: 'Next-gen gaming console with 4K support and 1TB storage.',
       imageUrl: 'https://picsum.photos/238/160?random=8',
       price: 350,
       category: 'Gaming',
@@ -111,7 +102,7 @@ export class Products {
     {
       id: 9,
       name: 'Printer',
-      destination: 'Leskovac',
+      description: 'All-in-one printer with scanning and copying features.',
       imageUrl: 'https://picsum.photos/238/160?random=9',
       price: 120,
       category: 'Office',
@@ -122,7 +113,8 @@ export class Products {
     {
       id: 10,
       name: 'Smartwatch',
-      destination: 'Valjevo',
+      description:
+        'Wearable smartwatch with fitness tracking and heart rate monitor.',
       imageUrl: 'https://picsum.photos/238/160?random=10',
       price: 180,
       category: 'Wearables',
@@ -133,7 +125,7 @@ export class Products {
     {
       id: 11,
       name: 'Bluetooth Speaker',
-      destination: 'Pirot',
+      description: 'Portable Bluetooth speaker with high-quality sound.',
       imageUrl: 'https://picsum.photos/238/160?random=11',
       price: 70,
       category: 'Audio',
@@ -144,7 +136,8 @@ export class Products {
     {
       id: 12,
       name: 'E-reader',
-      destination: 'Sremska Mitrovica',
+      description:
+        'Lightweight e-reader with adjustable front light and long battery life.',
       imageUrl: 'https://picsum.photos/238/160?random=12',
       price: 220,
       category: 'Books',
@@ -153,4 +146,9 @@ export class Products {
       date: '2023-10-12',
     },
   ];
+
+  getProduct(idString: string) {
+    const id = +idString;
+    return this.products.find((product) => product.id === id);
+  }
 }
