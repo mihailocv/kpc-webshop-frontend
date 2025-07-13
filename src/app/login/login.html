@@ -8,7 +8,7 @@
       <h2 class="card-title text-center">Prijava</h2>
 
       <!-- The login form itself -->
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <!-- Email Address Input -->
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
@@ -20,6 +20,7 @@
               class="form-control"
               id="floatingInputGroup1"
               placeholder="Korisničko ime"
+              formControlName="username"
             />
             <label for="floatingInputGroup1">Korisničko ime</label>
           </div>
@@ -36,6 +37,7 @@
               class="form-control"
               id="floatingInputGroup2"
               placeholder="Password"
+              formControlName="password"
             />
             <label for="floatingInputGroup2">Password</label>
           </div>
@@ -43,7 +45,13 @@
 
         <!-- Submit Button -->
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Prijavi se</button>
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid"
+            class="btn btn-primary"
+          >
+            Prijavi se
+          </button>
         </div>
       </form>
     </div>

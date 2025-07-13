@@ -5,10 +5,10 @@
     <div class="card-body">
       <h2 class="card-title text-center">Registracija</h2>
 
-      <form>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
-          ><i class="bi bi-person-fill fs-4"></i
+            ><i class="bi bi-person-fill fs-4"></i
           ></span>
           <div class="form-floating">
             <input
@@ -16,19 +16,23 @@
               class="form-control"
               id="floatingInputGroup1"
               placeholder="Korisničko ime"
+              formControlName="username"
             />
             <label for="floatingInputGroup1">Korisničko ime</label>
           </div>
         </div>
 
         <div class="input-group mb-4">
-          <span class="input-group-text px-3"><i class="bi bi-telephone-fill fs-5"></i></span>
+          <span class="input-group-text px-3"
+            ><i class="bi bi-telephone-fill fs-5"></i
+          ></span>
           <div class="form-floating">
             <input
               type="tel"
               class="form-control"
               id="floatingInputGroup2"
               placeholder="Broj telefona"
+              formControlName="phoneNumber"
             />
             <label for="floatingInputGroup2">Broj telefona</label>
           </div>
@@ -36,7 +40,7 @@
 
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
-          ><i class="bi bi-key-fill fs-4"></i
+            ><i class="bi bi-key-fill fs-4"></i
           ></span>
           <div class="form-floating">
             <input
@@ -44,13 +48,20 @@
               class="form-control"
               id="floatingInputGroup3"
               placeholder="Password"
+              formControlName="password"
             />
             <label for="floatingInputGroup3">Password</label>
           </div>
         </div>
 
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Kreiraj nalog</button>
+          <button
+            type="submit"
+            [disabled]="signupForm.invalid"
+            class="btn btn-primary"
+          >
+            Kreiraj nalog
+          </button>
         </div>
       </form>
     </div>

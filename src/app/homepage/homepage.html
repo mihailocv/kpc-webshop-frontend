@@ -29,7 +29,7 @@
                 priority
               />
             </div>
-            @if (isLoggedIn && loggedInUser === product.seller) {
+            @if ((isLoggedIn$ | async) && loggedInUser === product.seller) {
               <div
                 class="card-img-overlay d-flex justify-content-end align-items-start p-2"
               >

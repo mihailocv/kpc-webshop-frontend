@@ -5,7 +5,7 @@ import type { Product } from './product.model';
   providedIn: 'root',
 })
 export class Products {
-  isLoggedIn = true;
+  isLoggedIn = false;
 
   products: Product[] = [
     {

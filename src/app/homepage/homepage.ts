@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Products } from '../products';
 import { RouterLink } from '@angular/router';
 import { Users } from '../users';
+import { Observable } from 'rxjs';
+import { Auth } from '../services/auth';
 
 @Component({
   selector: 'app-homepage',
-  imports: [CurrencyPipe, FormsModule, NgOptimizedImage, RouterLink],
+  imports: [CurrencyPipe, FormsModule, NgOptimizedImage, RouterLink, AsyncPipe],
   templateUrl: './homepage.html',
   styleUrl: 'homepage.css',
 })
@@ -15,7 +17,12 @@ export class Homepage {
   products: Products = inject(Products);
   users = inject(Users);
 
-  isLoggedIn = this.products.isLoggedIn;
+  isLoggedIn$!: Observable<boolean>;
+  authService = inject(Auth);
+  ngOnInit() {
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+  }
+
   loggedInUser = this.users.loggedInUser;
   productsList = this.products.products;
 

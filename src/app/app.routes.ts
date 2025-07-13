@@ -6,6 +6,8 @@ import { NotFound } from './not-found/not-found';
 import { NewAd } from './new-ad/new-ad';
 import { Ad } from './ad/ad';
 import { EditAd } from './edit-ad/edit-ad';
+import { AuthGuard } from './services/auth.guard';
+import { GuestGuard } from './services/guest.guard';
 
 export const routes: Routes = [
   {
@@ -20,14 +22,17 @@ export const routes: Routes = [
   {
     path: 'login',
     component: Login,
+    canActivate: [GuestGuard], // Assuming GuestGuard is implemented to protect this route
   },
   {
     path: 'signup',
     component: SignUp,
+    canActivate: [GuestGuard],
   },
   {
     path: 'objavi-oglas',
     component: NewAd,
+    canActivate: [AuthGuard], // Assuming AuthGuard is implemented to protect this route
   },
   {
     path: 'artikal/:adId',
@@ -36,6 +41,7 @@ export const routes: Routes = [
   {
     path: 'artikal/uredi/:adId',
     component: EditAd,
+    canActivate: [AuthGuard], // Assuming AuthGuard is implemented to protect this route
   },
   {
     path: '**',
