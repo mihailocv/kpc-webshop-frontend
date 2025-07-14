@@ -9,7 +9,6 @@
 
       <!-- The login form itself -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!-- Email Address Input -->
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
             ><i class="bi bi-person-fill fs-4"></i
@@ -21,12 +20,45 @@
               id="floatingInputGroup1"
               placeholder="Korisničko ime"
               formControlName="username"
+              [class.is-invalid]="
+                usernameControl.invalid &&
+                (usernameControl.touched || usernameControl.dirty)
+              "
             />
             <label for="floatingInputGroup1">Korisničko ime</label>
           </div>
+          @if (
+            usernameControl.invalid &&
+            (usernameControl.touched || usernameControl.dirty)
+          ) {
+            <div class="invalid-feedback d-block">
+              @if (usernameControl.errors?.["required"]) {
+                <div>Username je obavezno polje.</div>
+              } @else if (usernameControl.errors?.["minlength"]) {
+                <div>
+                  Username mora imati najmanje
+                  {{ usernameControl.errors?.["minlength"]?.requiredLength }}
+                  karaktera. Trenutno:
+                  {{ usernameControl.errors?.["minlength"]?.actualLength }}
+                </div>
+              } @else if (usernameControl.errors?.["maxlength"]) {
+                <div>
+                  Username može imati najviše
+                  {{ usernameControl.errors?.["maxlength"]?.requiredLength }}
+                  karaktera. Trenutno:
+                  {{ usernameControl.errors?.["maxlength"]?.actualLength }}
+                </div>
+              } @else if (usernameControl.errors?.["pattern"]) {
+                <div>
+                  Korisnicko ime: samo mala slova, brojevi, tačka (.) i donja
+                  crta (_). Ne može početi/završiti tačkom/donjom crtom, niti
+                  imati dve uzastopno.
+                </div>
+              }
+            </div>
+          }
         </div>
 
-        <!-- Password Input -->
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
             ><i class="bi bi-key-fill fs-4"></i
@@ -35,22 +67,108 @@
             <input
               type="password"
               class="form-control"
-              id="floatingInputGroup2"
+              id="floatingInputGroup3"
               placeholder="Password"
               formControlName="password"
+              [type]="passwordInputType"
+              [class.is-invalid]="
+                passwordControl.invalid &&
+                (passwordControl.touched || passwordControl.dirty)
+              "
             />
-            <label for="floatingInputGroup2">Password</label>
+            <label for="floatingInputGroup3">Password</label>
           </div>
+          <button
+            type="button"
+            class="btn btn-toggle-password"
+            (click)="togglePasswordVisibility()"
+          >
+            <i
+              class="bi"
+              [class.bi-eye-slash-fill]="passwordInputType === 'password'"
+              [class.bi-eye-fill]="passwordInputType === 'text'"
+            ></i>
+          </button>
+          @if (
+            passwordControl.invalid &&
+            (passwordControl.touched || passwordControl.dirty)
+          ) {
+            <div class="mt-2">
+              <p
+                [class]="isPasswordLengthValid ? 'text-success' : 'text-danger'"
+              >
+                <i
+                  [class]="
+                    isPasswordLengthValid
+                      ? 'bi bi-check-circle-fill'
+                      : 'bi bi-x-circle-fill'
+                  "
+                ></i>
+                Minimalno 8 karaktera, maksimalno 64 karaktera
+              </p>
+              <p
+                [class]="hasPasswordLowercase ? 'text-success' : 'text-danger'"
+              >
+                <i
+                  [class]="
+                    hasPasswordLowercase
+                      ? 'bi bi-check-circle-fill'
+                      : 'bi bi-x-circle-fill'
+                  "
+                ></i>
+                Sadrži barem jedno malo slovo (a-z)
+              </p>
+              <p
+                [class]="hasPasswordUppercase ? 'text-success' : 'text-danger'"
+              >
+                <i
+                  [class]="
+                    hasPasswordUppercase
+                      ? 'bi bi-check-circle-fill'
+                      : 'bi bi-x-circle-fill'
+                  "
+                ></i>
+                Sadrži barem jedno veliko slovo (A-Z)
+              </p>
+              <p [class]="hasPasswordDigit ? 'text-success' : 'text-danger'">
+                <i
+                  [class]="
+                    hasPasswordDigit
+                      ? 'bi bi-check-circle-fill'
+                      : 'bi bi-x-circle-fill'
+                  "
+                ></i>
+                Sadrži barem jedan broj (0-9)
+              </p>
+              <p
+                [class]="
+                  hasPasswordSpecialChar ? 'text-success' : 'text-danger'
+                "
+              >
+                <i
+                  [class]="
+                    hasPasswordSpecialChar
+                      ? 'bi bi-check-circle-fill'
+                      : 'bi bi-x-circle-fill'
+                  "
+                ></i>
+                Sadrži barem jedan simbol (&#64; $ ! % * ? & . ,)
+              </p>
+
+              @if (passwordControl.errors?.["required"]) {
+                <div class="invalid-feedback d-block">Lozinka je obavezna.</div>
+              }
+            </div>
+          }
         </div>
 
-        <!-- Submit Button -->
         <div class="d-grid">
           <button
             type="submit"
             [disabled]="loginForm.invalid"
             class="btn btn-primary"
           >
-            Prijavi se
+            Kreiraj nalog
           </button>
         </div>
       </form>
