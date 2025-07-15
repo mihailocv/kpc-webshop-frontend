@@ -1,14 +1,3 @@
-<!--<p>Ime proizvoda: {{ product()?.name ?? "Nepoznato" }}</p>-->
-<!--<p>Ime proizvoda: {{ product()?.description ?? "Nepoznato" }}</p>-->
-<!--<p>Ime proizvoda: {{ product()?.imageUrl ?? "Nepoznato" }}</p>-->
-<!--<p>Ime proizvoda: {{ product()?.price ?? "Nepoznato" }}</p>-->
-<!--<p>Ime proizvoda: {{ product()?.category ?? "Nepoznato" }}</p>-->
-<!--<p>Ime proizvoda: {{ product()?.seller ?? "Nepoznato" }}</p>-->
-<!--<p>Ime proizvoda: {{ product()?.city ?? "Nepoznato" }}</p>-->
-<!--<p>-->
-<!--  Ime proizvoda:-->
-<!--  {{ product()?.date ? (product()?.date | date: "longDate") : "Nepoznato" }}-->
-<!--</p>-->
 <div class="container my-5">
   <div class="row gy-4">
     <div class="col-12 col-md-8">
@@ -26,14 +15,12 @@
 
         <img
           src="{{ product()?.imageUrl ?? 'Nepoznato' }}"
-          alt="{{ product()?.name ?? 'Nepoznato' }}"
-          class="img-fluid"
+          alt="{{ product()?.title ?? 'Nepoznato' }}" class="img-fluid"
         />
 
         <div class="card-body">
           <h1 class="card-title fw-bold display-5">
-            {{ product()?.name ?? "Nepoznato" }}
-          </h1>
+            {{ product()?.title ?? "Nepoznato" }} </h1>
           <p class="card-text h4 text-info-emphasis fw-bold">
             {{
               product()?.price
@@ -44,7 +31,7 @@
         </div>
 
         <div class="card-footer mt-3">
-          <small>Datum objave: {{ product()?.date ? (product()?.date | date: "longDate") : "Nepoznato" }}</small>
+          <small>Datum objave: {{ product()?.createdAt ? (product()?.createdAt | date: "longDate") : "Nepoznato" }}</small>
         </div>
       </div>
     </div>
@@ -54,11 +41,11 @@
         <div class="card-body">
           <h2 class="card-title">Prodavac:</h2>
           <p class="fs-4">
-            <strong>{{ product()?.seller ?? "Nepoznato" }}</strong>
+            <strong>{{ product()?.user?.username ?? "Nepoznato" }}</strong>
           </p>
-          <button class="btn btn-outline-primary w-100">
-            +381 66 123 4567
-          </button>
+          <a href="tel:{{product()?.user?.phoneNumber}}" class="btn btn-outline-primary w-100">
+            {{ product()?.user?.phoneNumber ?? 'Prikaži telefon' }}
+          </a>
         </div>
       </div>
     </div>

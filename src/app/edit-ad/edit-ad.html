@@ -1,86 +1,43 @@
 <div class="login-container container d-flex justify-content-center align-items-center">
   <div class="card login-card w-100">
     <div class="card-body">
-      <!-- Title of the login form -->
-      <h2 class="card-title text-center">Novi oglas</h2>
-      <form>
-        <!--  Naziv oglasa  -->
+      <h2 class="card-title text-center">Izmena oglasa</h2>
+      <form [formGroup]="editAdForm" (ngSubmit)="onSubmit()">
         <div class="form-floating mb-3">
           <input
             type="text"
             class="form-control"
             id="naziv-oglasa"
             placeholder="iPhone 16 Pro Max"
-            value="{{ product()?.name ?? 'Nepoznato' }}"
+            formControlName="title"
           />
           <label for="naziv-oglasa">Naziv oglasa</label>
         </div>
 
-        <!--  Opis oglasa  -->
         <div class="form-floating mb-3">
           <textarea
             class="form-control"
             placeholder="Opišite proizvod u kratkim crtama..."
             id="opis-oglasa"
             style="height: 80px"
-            [value]="product()?.description ?? 'Nepoznato'"
+            formControlName="description"
           ></textarea>
           <label for="opis-oglasa">Opis oglasa</label>
         </div>
 
-        <!--  Cijena proizvoda  -->
-        <div class="form-floating mb-3">
-          <input
-            type="number"
-            class="form-control"
-            id="cijena"
-            placeholder="1000"
-            value="{{ product()?.price ?? 'Nepoznato' }}"
-          />
-          <label for="cijena">Cijena proizvoda</label>
-        </div>
-
-        <hr />
-
-        <!--  Fotografija proizvoda  -->
         <div class="mb-3">
+          @if (product()?.imageUrl) {
+            <p>Trenutna slika:</p>
+            <img [src]="product()?.imageUrl" alt="Trenutna slika" class="img-thumbnail mb-2" style="max-width: 200px;">
+          }
           <label for="fotografija-proizvoda" class="form-label"
-          >Fotografija proizvoda</label
+          >Promeni fotografiju (opciono)</label
           >
-          <input class="form-control" type="file" id="fotografija-proizvoda"/>
+          <input class="form-control" type="file" id="fotografija-proizvoda" (change)="onFileChange($event)"/>
         </div>
 
-        <!--  Kategorija proizvoda  -->
-        <select class="form-select mb-3" aria-label="Kategorija proizvoda">
-          <option selected>Izaberite kategoriju</option>
-          <option value="odjeca-obuca">Odjeća i obuća</option>
-          <option value="alati">Alati</option>
-          <option value="sport">Sport</option>
-          <option value="aksesoari">Aksesoari</option>
-          <option value="namjestaj">Namještaj</option>
-          <option value="kucni-ljubimci">Kućni ljubimci</option>
-          <option value="igre">Igre i video igre</option>
-          <option value="knjige">Knjige</option>
-          <option value="tehnika">Tehnika</option>
-        </select>
 
-        <!--  Grad  -->
-        <select class="form-select mb-3" aria-label="Grad">
-          <option selected>Izaberite grad</option>
-          <option value="beograd">Beograd</option>
-          <option value="novi-sad">Novi Sad</option>
-          <option value="nis">Niš</option>
-          <option value="subotica">Subotica</option>
-          <option value="kragujevac">Kragujevac</option>
-          <option value="zrenjanin">Zrenjanin</option>
-          <option value="leskovac">Leskovac</option>
-          <option value="valjevo">Valjevo</option>
-          <option value="cacak">Čačak</option>
-          <option value="senta">Senta</option>
-        </select>
-
-        <!--  Dugme za objavu oglasa  -->
-        <button type="submit" class="btn btn-primary w-100">Objavi oglas</button>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="editAdForm.invalid">Sačuvaj izmene</button>
       </form>
     </div>
   </div>

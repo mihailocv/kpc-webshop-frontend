@@ -1,11 +1,15 @@
+import {User} from './users.model';
+
 export interface Product {
-  id: number;
-  name: string;
+  _id?: string;
+  id?: number;
+  title: string;
   description: string;
   imageUrl: string;
   price: number;
   category: string;
-  seller: string;
+  user: User;
   city: string;
-  date: string;
+  createdAt: string;
+  updatedAt: string;
 }

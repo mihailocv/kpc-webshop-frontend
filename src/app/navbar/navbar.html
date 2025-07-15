@@ -16,30 +16,34 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {{ whoIsLoggedIn() }}
+            @if (currentUser$ | async; as user) {
+              {{ user.username }}
+            } @else {
+              Korisnik
+            }
           </button>
           <ul class="dropdown-menu">
             <li>
               <a class="dropdown-item" href="#"
-                ><i class="bi bi-person-fill me-2"></i>Moj nalog</a
+              ><i class="bi bi-person-fill me-2"></i>Moj nalog</a
               >
             </li>
             <li>
               <hr class="dropdown-divider" />
             </li>
             <li>
-              <button type="button" class="dropdown-item" (click)="logout()"
-                ><i class="bi bi-box-arrow-right me-2"></i>Odjava</button
-              >
+              <button type="button" class="dropdown-item" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i>Odjava
+              </button>
             </li>
           </ul>
         </div>
       } @else {
         <a routerLink="/login" class="btn btn-outline-primary fs-5"
-          >Prijavi se</a
+        >Prijavi se</a
         >
         <a routerLink="/signup" class="btn btn-primary fs-5"
-          ><i class="bi bi-person-fill-add me-2"></i>Kreiraj nalog</a
+        ><i class="bi bi-person-fill-add me-2"></i>Kreiraj nalog</a
         >
       }
     </div>

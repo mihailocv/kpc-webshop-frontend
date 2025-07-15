@@ -1,33 +1,27 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { Users } from '../users';
-import { Auth } from '../services/auth';
-import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {Auth} from '../services/auth';
+import {Observable} from 'rxjs';
+import {AsyncPipe, CommonModule} from '@angular/common';
+import {User} from '../users.model';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, CommonModule],
   templateUrl: './navbar.html',
 })
-export class Navbar {
-  users: Users = inject(Users);
-  usersList = this.users.users;
-  loggedInUser = this.users.loggedInUser;
-
+export class Navbar implements OnInit {
   isLoggedIn$!: Observable<boolean>;
+  currentUser$!: Observable<User | null>;
+
   authService = inject(Auth);
+
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
-  }
-  logout() {
-    this.authService.logout();
+    this.currentUser$ = this.authService.currentUser$;
   }
 
-  whoIsLoggedIn() {
-    return (
-      this.usersList.find((user) => user.username === this.loggedInUser)
-        ?.username || 'Korisnik'
-    );
+  logout() {
+    this.authService.logout();
   }
 }
