@@ -8,7 +8,7 @@
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
-            ><i class="bi bi-person-fill fs-4"></i
+          ><i class="bi bi-person-fill fs-4"></i
           ></span>
           <div class="form-floating">
             <input
@@ -24,10 +24,8 @@
             />
             <label for="floatingInputGroup1">Korisničko ime</label>
           </div>
-          @if (
-            usernameControl.invalid &&
-            (usernameControl.touched || usernameControl.dirty)
-          ) {
+          @if (usernameControl.invalid &&
+          (usernameControl.touched || usernameControl.dirty)) {
             <div class="invalid-feedback d-block">
               @if (usernameControl.errors?.["required"]) {
                 <div>Username je obavezno polje.</div>
@@ -58,7 +56,7 @@
 
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
-            ><i class="bi bi-telephone-fill fs-5"></i
+          ><i class="bi bi-telephone-fill fs-5"></i
           ></span>
           <div class="form-floating">
             <input
@@ -74,16 +72,14 @@
             />
             <label for="floatingInputGroup2">Broj telefona</label>
           </div>
-          @if (
-            phoneNumberControl.invalid &&
-            (phoneNumberControl.touched || phoneNumberControl.dirty)
-          ) {
+          @if (phoneNumberControl.invalid &&
+          (phoneNumberControl.touched || phoneNumberControl.dirty)) {
             <div class="invalid-feedback d-block">
               @if (phoneNumberControl.errors?.["required"]) {
                 <div>Broj telefona je obavezan.</div>
               } @else if (phoneNumberControl.errors?.["pattern"]) {
                 <div>
-                  Broj telefona nije u ispravnom formatu <br />(npr. +381 61 123
+                  Broj telefona nije u ispravnom formatu <br/>(npr. +381 61 123
                   4567, razmaci su dozvoljeni, ali ne obavezni).
                 </div>
               }
@@ -93,7 +89,7 @@
 
         <div class="input-group mb-4">
           <span class="input-group-text px-3"
-            ><i class="bi bi-key-fill fs-4"></i
+          ><i class="bi bi-key-fill fs-4"></i
           ></span>
           <div class="form-floating">
             <input
@@ -121,10 +117,8 @@
               [class.bi-eye-fill]="passwordInputType === 'text'"
             ></i>
           </button>
-          @if (
-            passwordControl.invalid &&
-            (passwordControl.touched || passwordControl.dirty)
-          ) {
+          @if (passwordControl.invalid &&
+          (passwordControl.touched || passwordControl.dirty)) {
             <div class="mt-2">
               <p
                 [class]="isPasswordLengthValid ? 'text-success' : 'text-danger'"
@@ -193,6 +187,12 @@
             </div>
           }
         </div>
+
+        @if (serverError) {
+          <div class="alert alert-danger" role="alert">
+            {{ serverError }}
+          </div>
+        }
 
         <div class="d-grid">
           <button

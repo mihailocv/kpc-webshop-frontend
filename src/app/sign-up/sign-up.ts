@@ -17,6 +17,7 @@ import { Auth } from '../services/auth';
 })
 export class SignUp {
   signupForm!: FormGroup;
+  serverError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -113,6 +114,7 @@ export class SignUp {
   }
 
   onSubmit() {
+    this.serverError = null;
     if (this.signupForm.invalid) {
       return;
     }
@@ -124,8 +126,10 @@ export class SignUp {
         this.router.navigate(['/']);
       },
       error: (error) => {
+        this.serverError =
+          error.error?.message ||
+          'Došlo je do neočekivane greške. Molimo pokušajte ponovo.';
         console.error('Sign up failed', error);
-        // Handle error appropriately, e.g., show a message to the user
       },
     });
   }

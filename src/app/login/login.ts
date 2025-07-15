@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 })
 export class Login {
   loginForm!: FormGroup;
+  serverError: string | null = null;
 
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
@@ -100,6 +101,7 @@ export class Login {
   }
 
   onSubmit() {
+    this.serverError = null;
     if (this.loginForm.invalid) {
       return;
     }
@@ -111,8 +113,10 @@ export class Login {
         this.router.navigate(['/']);
       },
       error: (error) => {
-        console.error('Sign up failed', error);
-        // Handle error appropriately, e.g., show a message to the user
+        this.serverError =
+          error.error?.message ||
+          'Došlo je do neočekivane greške. Molimo pokušajte ponovo.';
+        console.error('Login failed', error);
       },
     });
   }
