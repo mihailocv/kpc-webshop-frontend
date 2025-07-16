@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-ad',
-  standalone: true, // Pretpostavljam da je komponenta standalone
+  standalone: true,
   imports: [DatePipe, CurrencyPipe, RouterLink],
   templateUrl: './ad.html',
   styleUrl: './ad.css',
@@ -18,18 +18,15 @@ export class Ad {
   product = signal<Product | undefined>(undefined);
 
   constructor() {
-    // `effect` će se automatski pokrenuti kada se `adId` promeni
     effect(() => {
       const id = this.adId();
       if (id) {
-        // Pozivamo servis da preuzme podatke za ovaj specifičan oglas
         this.productsService.getAdById(id).subscribe({
           next: (productData) => {
             this.product.set(productData);
           },
           error: (err) => {
             console.error('Greška pri učitavanju oglasa:', err);
-            // Opciono: preusmeriti na 404 stranicu ako oglas ne postoji
           },
         });
       }

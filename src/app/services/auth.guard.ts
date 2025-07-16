@@ -1,4 +1,3 @@
-// src/app/auth/auth.guard.ts
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
@@ -31,12 +30,12 @@ export class AuthGuard implements CanActivate {
     return this.authService.isLoggedIn$.pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {
-          return true; // Dozvoli pristup ruti
+          return true;
         } else {
           console.warn(
             'Neregistrovan korisnik pokušao pristupiti privatnoj ruti, preusmeravanje...',
           );
-          return this.router.createUrlTree(['/login']); // Preusmeri na login
+          return this.router.createUrlTree(['/prijava']);
         }
       }),
     );

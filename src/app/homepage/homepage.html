@@ -12,97 +12,103 @@
       <option [value]="20">20</option>
     </select>
   </div>
-
-  @if (paginatedProducts.length > 0) {
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
-      @for (product of paginatedProducts; track product._id) {
-        <div class="col">
-          <div class="card h-100">
-            <div class="w-100" style="aspect-ratio: 238 / 160">
-              @if ((isLoggedIn$ | async) && (currentUser$ | async)?._id === product.user._id) {
-                <div
-                  class="card-img-overlay d-flex justify-content-end align-items-start p-2"
+  @if (paginatedProducts$ | async; as paginatedProducts) {
+    @if (paginatedProducts.length > 0) {
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+        @for (product of paginatedProducts; track product._id) {
+          <div class="col">
+            <div class="card h-100">
+              <div class="w-100" style="aspect-ratio: 238 / 160">
+                @if ((isLoggedIn$ | async) && (currentUser$ | async)?._id === product.user._id) {
+                  <div
+                    class="card-img-overlay d-flex justify-content-end align-items-start p-2"
+                  >
+                    <a
+                      [routerLink]="['/artikal/uredi', product._id]"
+                      class="btn btn-light rounded-5 me-2"
+                      aria-label="Uredi proizvod"
+                    >
+                      <i class="bi bi-pencil-square text-primary"></i>
+                    </a>
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-5"
+                      aria-label="Obriši proizvod"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteAdModal"
+                      (click)="selectAdForDeletion(product._id!)"
+                    >
+                      <i class="bi bi-trash3-fill text-danger"></i>
+                    </button>
+                  </div>
+                }
+                <img
+                  ngSrc="{{ product.imageUrl }}"
+                  class="card-img-top object-fit-cover w-100 h-100"
+                  alt="{{ product.title }}"
+                  width="238"
+                  height="160"
+                  priority
+                />
+              </div>
+              <div class="card-body">
+                <a
+                  [routerLink]="['/artikal', product._id]"
+                  class="stretched-link text-decoration-none text-dark"
                 >
-                  <a
-                    [routerLink]="['/artikal/uredi', product._id]"
-                    class="btn btn-light rounded-5 me-2"
-                    aria-label="Uredi proizvod"
-                  >
-                    <i class="bi bi-pencil-square text-primary"></i>
-                  </a>
-                  <button
-                    type="button"
-                    class="btn btn-light rounded-5"
-                    aria-label="Obriši proizvod"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteAdModal"
-                    (click)="selectAdForDeletion(product._id!)"
-                  >
-                    <i class="bi bi-trash3-fill text-danger"></i>
-                  </button>
-                </div>
-              }
-              <img
-                ngSrc="{{ product.imageUrl }}"
-                class="card-img-top object-fit-cover w-100 h-100"
-                alt="{{ product.title }}"
-                width="238"
-                height="160"
-                priority
-              />
-            </div>
-            <div class="card-body">
-              <a
-                [routerLink]="['/artikal', product._id]"
-                class="stretched-link text-decoration-none text-dark"
-              >
-                <h2 class="card-title fs-6">{{ product.title }}</h2>
-              </a>
+                  <h2 class="card-title fs-6">{{ product.title }}</h2>
+                </a>
 
-              <p class="card-subtitle text-secondary">{{ product.city }}</p>
+                <p class="card-subtitle text-secondary">{{ product.city }}</p>
 
-              <div class="py-2 d-flex gap-2 flex-wrap">
+                <div class="py-2 d-flex gap-2 flex-wrap">
                 <span class="border border-dark-subtle rounded-1 p-1 fs-7">
                   {{ product.category }}
                 </span>
+                </div>
+                <p class="fw-bold fs-5 mt-2 mb-0">
+                  {{ product.price | currency: "EUR" }}
+                </p>
               </div>
-              <p class="fw-bold fs-5 mt-2 mb-0">
-                {{ product.price | currency: "EUR" }}
-              </p>
             </div>
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
 
-    <nav aria-label="Page navigation" class="my-5">
-      <ul class="pagination justify-content-center">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="changePage(currentPage - 1)">
-            Previous
-          </button>
-        </li>
-
-        @for (page of pages; track page) {
-          <li class="page-item" [class.active]="page === currentPage">
-            <button class="page-link" (click)="changePage(page)">
-              {{ page }}
+      <nav aria-label="Page navigation" class="my-5">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="changePage(currentPage - 1)">
+              Previous
             </button>
           </li>
-        }
 
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <button class="page-link" (click)="changePage(currentPage + 1)">
-            Next
-          </button>
-        </li>
-      </ul>
-    </nav>
-  } @else {
-    <div class="alert alert-info" role="alert">Nema oglasa za prikaz.</div>
+          @if(pages$ | async; as pages) {
+            @for (page of pages; track page) {
+              <li class="page-item" [class.active]="page === currentPage">
+                <button class="page-link" (click)="changePage(page)">
+                  {{ page }}
+                </button>
+              </li>
+            }
+          }
+
+          @if (totalPages$ | async; as total) {
+            <li class="page-item" [class.disabled]="currentPage === total">
+              <button class="page-link" (click)="changePage(currentPage + 1)">
+                Next
+              </button>
+            </li>
+          }
+        </ul>
+      </nav>
+    } @else {
+      <div class="alert alert-info" role="alert">Nema oglasa za prikaz.</div>
+    }
   }
 
-  <div class="modal fade" id="deleteAdModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteAdModalLabel" aria-hidden="true">
+  <div class="modal fade" id="deleteAdModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+       aria-labelledby="deleteAdModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">

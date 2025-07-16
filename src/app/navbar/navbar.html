@@ -1,7 +1,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container">
     <a class="navbar-brand" routerLink="/">
-      <img alt="Home page" height="60" src="assets/kp-logo.svg" />
+      <img alt="Home page" height="60" src="assets/kp-logo.svg"/>
     </a>
     <div class="d-flex gap-2">
       @if (isLoggedIn$ | async) {
@@ -29,7 +29,7 @@
               >
             </li>
             <li>
-              <hr class="dropdown-divider" />
+              <hr class="dropdown-divider"/>
             </li>
             <li>
               <button type="button" class="dropdown-item" (click)="logout()">
@@ -39,10 +39,10 @@
           </ul>
         </div>
       } @else {
-        <a routerLink="/login" class="btn btn-outline-primary fs-5"
+        <a routerLink="/prijava" class="btn btn-outline-primary fs-5"
         >Prijavi se</a
         >
-        <a routerLink="/signup" class="btn btn-primary fs-5"
+        <a routerLink="/registracija" class="btn btn-primary fs-5"
         ><i class="bi bi-person-fill-add me-2"></i>Kreiraj nalog</a
         >
       }

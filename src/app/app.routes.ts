@@ -13,38 +13,40 @@ export const routes: Routes = [
   {
     path: '',
     component: Homepage,
+    title: 'Početna',
   },
   {
-    path: 'homepage',
-    redirectTo: '',
-    pathMatch: 'full',
-  },
-  {
-    path: 'login',
+    path: 'prijava',
     component: Login,
-    canActivate: [GuestGuard], // Assuming GuestGuard is implemented to protect this route
+    canActivate: [GuestGuard],
+    title: 'Prijava',
   },
   {
-    path: 'signup',
+    path: 'registracija',
     component: SignUp,
     canActivate: [GuestGuard],
+    title: 'Registracija',
   },
   {
     path: 'objavi-oglas',
     component: NewAd,
-    canActivate: [AuthGuard], // Assuming AuthGuard is implemented to protect this route
+    canActivate: [AuthGuard],
+    title: 'Novi oglas',
   },
   {
     path: 'artikal/:adId',
     component: Ad,
+    title: 'Detalji o artiklu',
   },
   {
     path: 'artikal/uredi/:adId',
     component: EditAd,
-    canActivate: [AuthGuard], // Assuming AuthGuard is implemented to protect this route
+    canActivate: [AuthGuard],
+    title: 'Uredi artikal',
   },
   {
     path: '**',
     component: NotFound,
+    title: 'Nije pronađeno'
   },
 ];

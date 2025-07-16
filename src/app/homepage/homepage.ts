@@ -3,16 +3,15 @@ import { AsyncPipe, CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Products } from '../products';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Auth } from '../services/auth';
 import { Product } from '../product.model';
-import { User } from '../users.model'; // Import User model
+import { User } from '../users.model';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-homepage',
-  // standalone: true, // Ako je komponenta standalone
   imports: [FormsModule, NgOptimizedImage, RouterLink, AsyncPipe, CurrencyPipe],
   templateUrl: './homepage.html',
   styleUrl: 'homepage.css',
@@ -22,46 +21,46 @@ export class Homepage implements OnInit {
   authService = inject(Auth);
 
   isLoggedIn$!: Observable<boolean>;
-  currentUser$!: Observable<User | null>; // Koristićemo Observable za trenutnog korisnika
+  currentUser$!: Observable<User | null>;
 
-  productsList: Product[] = [];
+  productsList$: Observable<Product[]> = this.productsService.products$;
+
   adToDeleteId: string | null = null;
 
-  // Paginacija
   currentPage = 1;
   itemsPerPage = 10;
+
+  paginatedProducts$!: Observable<Product[]>;
+  totalPages$!: Observable<number>;
+  pages$!: Observable<number[]>;
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.currentUser$ = this.authService.currentUser$;
 
-    this.productsService.getAds().subscribe({
-      next: (adsFromDb) => {
-        this.productsService.products = adsFromDb;
-        this.productsList = adsFromDb;
-      },
-      error: (err) => {
-        console.error('Greška pri učitavanju oglasa sa servera:', err);
-      }
-    });
+    this.setupPaginationObservables();
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.productsList.length / this.itemsPerPage);
-  }
+  private setupPaginationObservables() {
+    this.totalPages$ = this.productsList$.pipe(
+      map(products => Math.ceil(products.length / this.itemsPerPage))
+    );
 
-  get paginatedProducts(): Product[] { // Jaka tipizacija
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.productsList.slice(startIndex, startIndex + this.itemsPerPage);
-  }
+    this.paginatedProducts$ = this.productsList$.pipe(
+      map(products => {
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        return products.slice(startIndex, startIndex + this.itemsPerPage);
+      })
+    );
 
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    this.pages$ = this.totalPages$.pipe(
+      map(totalPages => Array.from({ length: totalPages }, (_, i) => i + 1))
+    );
   }
 
   changePage(page: number): void {
-    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+    this.setupPaginationObservables();
   }
 
   selectAdForDeletion(adId: string): void {
@@ -73,8 +72,6 @@ export class Homepage implements OnInit {
 
     this.productsService.deleteAd(this.adToDeleteId).subscribe({
       next: () => {
-        this.productsList = this.productsList.filter(p => p._id !== this.adToDeleteId);
-        this.productsService.products = this.productsList;
         this.adToDeleteId = null;
 
         const modalElement = document.getElementById('deleteAdModal');

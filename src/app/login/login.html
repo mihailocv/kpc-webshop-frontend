@@ -1,15 +1,11 @@
-<div
-  class="login-container container d-flex justify-content-center align-items-center"
->
-  <div class="card login-card w-100">
+<div class="form-container container d-flex justify-content-center align-items-center pt-5">
+  <div class="card form-card w-100 p-5">
     <div class="card-body">
       <h2 class="card-title text-center">Prijava</h2>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="input-group mb-4">
-          <span class="input-group-text px-3"
-          ><i class="bi bi-person-fill fs-4"></i
-          ></span>
+          <span class="input-group-text px-3"><i class="bi bi-person-fill fs-4"></i></span>
           <div class="form-floating">
             <input
               type="text"
@@ -17,15 +13,11 @@
               id="floatingInputGroup1"
               placeholder="Korisničko ime"
               formControlName="username"
-              [class.is-invalid]="
-                usernameControl.invalid &&
-                (usernameControl.touched || usernameControl.dirty)
-              "
+              [class.is-invalid]="usernameControl.invalid && (usernameControl.touched || usernameControl.dirty)"
             />
             <label for="floatingInputGroup1">Korisničko ime</label>
           </div>
-          @if (usernameControl.invalid &&
-          (usernameControl.touched || usernameControl.dirty)) {
+          @if (usernameControl.invalid && (usernameControl.touched || usernameControl.dirty)) {
             <div class="invalid-feedback d-block">
               @if (usernameControl.errors?.["required"]) {
                 <div>Username je obavezno polje.</div>
@@ -55,105 +47,55 @@
         </div>
 
         <div class="input-group mb-4">
-          <span class="input-group-text px-3"
-          ><i class="bi bi-key-fill fs-4"></i
-          ></span>
+          <span class="input-group-text px-3"><i class="bi bi-key-fill fs-4"></i></span>
           <div class="form-floating">
             <input
-              type="password"
               class="form-control"
               id="floatingInputGroup3"
               placeholder="Password"
               formControlName="password"
               [type]="passwordInputType"
-              [class.is-invalid]="
-                passwordControl.invalid &&
-                (passwordControl.touched || passwordControl.dirty)
-              "
+              [class.is-invalid]="passwordControl.invalid && (passwordControl.touched || passwordControl.dirty)"
             />
             <label for="floatingInputGroup3">Password</label>
           </div>
-          <button
-            type="button"
-            class="btn btn-toggle-password"
-            (click)="togglePasswordVisibility()"
-          >
-            <i
-              class="bi"
-              [class.bi-eye-slash-fill]="passwordInputType === 'password'"
-              [class.bi-eye-fill]="passwordInputType === 'text'"
-            ></i>
+          <button type="button" class="btn btn-toggle-password" (click)="togglePasswordVisibility()">
+            <i class="bi" [class.bi-eye-slash-fill]="passwordInputType === 'password'"
+               [class.bi-eye-fill]="passwordInputType === 'text'"></i>
           </button>
-          @if (passwordControl.invalid &&
-          (passwordControl.touched || passwordControl.dirty)) {
-            <div class="mt-2">
-              <p
-                [class]="isPasswordLengthValid ? 'text-success' : 'text-danger'"
-              >
-                <i
-                  [class]="
-                    isPasswordLengthValid
-                      ? 'bi bi-check-circle-fill'
-                      : 'bi bi-x-circle-fill'
-                  "
-                ></i>
-                Minimalno 8 karaktera, maksimalno 64 karaktera
-              </p>
-              <p
-                [class]="hasPasswordLowercase ? 'text-success' : 'text-danger'"
-              >
-                <i
-                  [class]="
-                    hasPasswordLowercase
-                      ? 'bi bi-check-circle-fill'
-                      : 'bi bi-x-circle-fill'
-                  "
-                ></i>
-                Sadrži barem jedno malo slovo (a-z)
-              </p>
-              <p
-                [class]="hasPasswordUppercase ? 'text-success' : 'text-danger'"
-              >
-                <i
-                  [class]="
-                    hasPasswordUppercase
-                      ? 'bi bi-check-circle-fill'
-                      : 'bi bi-x-circle-fill'
-                  "
-                ></i>
-                Sadrži barem jedno veliko slovo (A-Z)
-              </p>
-              <p [class]="hasPasswordDigit ? 'text-success' : 'text-danger'">
-                <i
-                  [class]="
-                    hasPasswordDigit
-                      ? 'bi bi-check-circle-fill'
-                      : 'bi bi-x-circle-fill'
-                  "
-                ></i>
-                Sadrži barem jedan broj (0-9)
-              </p>
-              <p
-                [class]="
-                  hasPasswordSpecialChar ? 'text-success' : 'text-danger'
-                "
-              >
-                <i
-                  [class]="
-                    hasPasswordSpecialChar
-                      ? 'bi bi-check-circle-fill'
-                      : 'bi bi-x-circle-fill'
-                  "
-                ></i>
-                Sadrži barem jedan simbol (&#64; $ ! % * ? & . ,)
-              </p>
-
-              @if (passwordControl.errors?.["required"]) {
-                <div class="invalid-feedback d-block">Lozinka je obavezna.</div>
-              }
-            </div>
-          }
         </div>
+        @if (passwordControl.invalid && (passwordControl.touched || passwordControl.dirty)) {
+          <div class="mt-2">
+            <p [class]="PasswordValidator.isLengthValid(passwordControl) ? 'text-success' : 'text-danger'">
+              <i
+                [class]="PasswordValidator.isLengthValid(passwordControl) ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+              Minimalno 8 karaktera, maksimalno 64 karaktera
+            </p>
+            <p [class]="PasswordValidator.hasLowercase(passwordControl) ? 'text-success' : 'text-danger'">
+              <i
+                [class]="PasswordValidator.hasLowercase(passwordControl) ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+              Sadrži barem jedno malo slovo (a-z)
+            </p>
+            <p [class]="PasswordValidator.hasUppercase(passwordControl) ? 'text-success' : 'text-danger'">
+              <i
+                [class]="PasswordValidator.hasUppercase(passwordControl) ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+              Sadrži barem jedno veliko slovo (A-Z)
+            </p>
+            <p [class]="PasswordValidator.hasDigit(passwordControl) ? 'text-success' : 'text-danger'">
+              <i
+                [class]="PasswordValidator.hasDigit(passwordControl) ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+              Sadrži barem jedan broj (0-9)
+            </p>
+            <p [class]="PasswordValidator.hasSpecialChar(passwordControl) ? 'text-success' : 'text-danger'">
+              <i
+                [class]="PasswordValidator.hasSpecialChar(passwordControl) ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+              Sadrži barem jedan simbol (&#64; $ ! % * ? & . ,)
+            </p>
+            @if (passwordControl.errors?.["required"]) {
+              <div class="invalid-feedback d-block">Lozinka je obavezna.</div>
+            }
+          </div>
+        }
 
         @if (serverError) {
           <div class="alert alert-danger" role="alert">
@@ -162,11 +104,7 @@
         }
 
         <div class="d-grid">
-          <button
-            type="submit"
-            [disabled]="loginForm.invalid"
-            class="btn btn-primary"
-          >
+          <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">
             Prijavi se
           </button>
         </div>

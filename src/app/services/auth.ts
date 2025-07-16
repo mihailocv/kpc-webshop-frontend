@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
 import {Router} from '@angular/router';
 import {User} from '../users.model';
+import {environment} from '../../environments/environment';
+import {jwtDecode} from 'jwt-decode';
 
 export interface SignUpDto {
   username: string;
@@ -19,14 +21,9 @@ export interface AuthResponse {
   token: string;
 }
 
-// export interface UserPayload {
-//   username: string;
-//   sub: string; // "Subject", obično ID korisnika
-//   // Ovde dodajte i druga polja ako ih vaš token sadrži
-// }
-
 export interface TokenPayload {
-  id: string; // ID korisnika
+  id: string;
+  username: string;
   iat: number;
   exp: number;
 }
@@ -35,7 +32,7 @@ export interface TokenPayload {
   providedIn: 'root',
 })
 export class Auth {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private router = inject(Router);
 
@@ -49,67 +46,67 @@ export class Auth {
     this.loadUserOnAuthInit();
   }
 
-  // Metoda za preuzimanje korisničkih podataka sa servera
-  private getUserProfile(userId: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
-  }
-
-  private loadUserOnAuthInit(): void {
-    const token = this.getToken();
-    if (token) {
-      try {
-        const payload: TokenPayload = JSON.parse(atob(token.split('.')[1]));
-
-        // Ako je token validan, preuzmi podatke o korisniku
-        this.getUserProfile(payload.id).subscribe({
-          next: (user) => {
-            this._currentUser.next(user);
-            this._isLoggedIn.next(true);
-          },
-          error: (err) => {
-            console.error('Greška pri preuzimanju profila korisnika', err);
-            this.logout(); // Ako ne možemo dobiti korisnika, odjavi ga
-          }
-        });
-      } catch (e) {
-        console.error('Neispravan token, odjavljivanje...', e);
-        this.logout();
-      }
-    }
-  }
-
-
-  signUp(user: SignUpDto) {
+  signUp(user: SignUpDto): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/signup`, user).pipe(
-      tap(response => {
-        this.saveToken(response.token);
-      })
+      tap(response => this.handleAuthSuccess(response.token))
     );
   }
 
-  logIn(user: LogInDto) {
+  logIn(user: LogInDto): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, user).pipe(
-      tap(response => {
-        this.saveToken(response.token);
-      })
+      tap(response => this.handleAuthSuccess(response.token))
     );
-  }
-
-  saveToken(token: string): void {
-    localStorage.setItem('token', token);
-    // Nakon snimanja, dekodiraj token i obavesti sve delove aplikacije
-    this.loadUserOnAuthInit();
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  logout() {
+  private handleAuthSuccess(token: string): void {
+    localStorage.setItem('token', token);
+    this.loadUserFromToken(token);
+  }
+
+  private loadUserFromToken(token: string): void {
+    try {
+      const payload: TokenPayload = jwtDecode(token);
+      const isTokenExpired = payload.exp * 1000 < Date.now();
+
+      if (isTokenExpired) {
+        this.logout();
+        return;
+      }
+
+      this.getUserProfile(payload.id).subscribe({
+        next: (user) => {
+          this._currentUser.next(user);
+          this._isLoggedIn.next(true);
+        },
+        error: () => {
+          this.logout();
+        }
+      });
+    } catch (e) {
+      console.error('Invalid token', e);
+      this.logout();
+    }
+  }
+
+  private loadUserOnAuthInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.loadUserFromToken(token);
+    }
+  }
+
+  logout(): void {
     localStorage.removeItem('token');
-    // Resetuj stanja
     this._isLoggedIn.next(false);
     this._currentUser.next(null);
     this.router.navigate(['/']);
+  }
+
+  private getUserProfile(userId: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
   }
 }

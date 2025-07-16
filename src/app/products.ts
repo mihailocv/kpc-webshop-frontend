@@ -2,22 +2,34 @@ import { inject, Injectable } from '@angular/core';
 import type { Product } from './product.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Auth } from './services/auth';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, catchError, Observable, of, tap} from 'rxjs';
+import {environment} from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Products {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private authService = inject(Auth);
 
-  // Niz će sada biti popunjen podacima sa servera
-  products: Product[] = [];
+  private readonly _products = new BehaviorSubject<Product[]>([]);
+  readonly products$ = this._products.asObservable();
 
-  // Metoda za preuzimanje svih oglasa sa servera
+  constructor() {
+    this.loadInitialAds();
+  }
+
+  private loadInitialAds(): void {
+    this.http.get<Product[]>(`${this.apiUrl}/ads`).pipe(
+      catchError(() => of([]))
+    ).subscribe(ads => {
+      this._products.next(ads);
+    });
+  }
+
   getAds(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/ads`);
+    return this.products$;
   }
 
   getAdById(adId: string): Observable<Product> {
@@ -29,15 +41,12 @@ export class Products {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.post<Product>(`${this.apiUrl}/ads`, formData, { headers });
-  }
-
-  deleteAd(adId: string): Observable<any> {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.delete(`${this.apiUrl}/ads/${adId}`, { headers });
+    return this.http.post<Product>(`${this.apiUrl}/ads`, formData, { headers }).pipe(
+      tap(newAd => {
+        const currentAds = this._products.getValue();
+        this._products.next([...currentAds, newAd]);
+      })
+    );
   }
 
   updateAd(adId: string, formData: FormData): Observable<Product> {
@@ -45,7 +54,26 @@ export class Products {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    // Koristimo PATCH jer obično šaljemo samo izmenjena polja
-    return this.http.patch<Product>(`${this.apiUrl}/ads/${adId}`, formData, { headers });
+    return this.http.patch<Product>(`${this.apiUrl}/ads/${adId}`, formData, { headers }).pipe(
+      tap(updatedAd => {
+        const currentAds = this._products.getValue();
+        const updatedAds = currentAds.map(ad => ad._id === updatedAd._id ? updatedAd : ad);
+        this._products.next(updatedAds);
+      })
+    );
+  }
+
+  deleteAd(adId: string): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete(`${this.apiUrl}/ads/${adId}`, { headers }).pipe(
+      tap(() => {
+        const currentAds = this._products.getValue();
+        const filteredAds = currentAds.filter(ad => ad._id !== adId);
+        this._products.next(filteredAds);
+      })
+    );
   }
 }
