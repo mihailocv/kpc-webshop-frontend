@@ -30,7 +30,7 @@ Da biste pokrenuli projekat lokalno, pratite sljedeće korake:
 
 1.  **Klonirajte repozitorijum:**
     ```bash
-    git clone [https://github.com/mihailocv/kpc-webshop-frontend](https://github.com/mihailocv/kpc-webshop-frontend)
+    git clone https://github.com/mihailocv/kpc-webshop-frontend
     cd vas-repozitorijum
     ```
 
